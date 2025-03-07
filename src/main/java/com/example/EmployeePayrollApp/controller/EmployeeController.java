@@ -1,6 +1,6 @@
 package com.example.EmployeePayrollApp.controller;
 
-import com.example.EmployeePayrollApp.model.Employee;
+import com.example.EmployeePayrollApp.dto.EmployeeDTO;
 import com.example.EmployeePayrollApp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,28 +14,28 @@ public class EmployeeController {
     @Autowired
     private EmployeeService service;
 
-    // GET all employees
+    // GET all employees (returns DTOs)
     @GetMapping
-    public List<Employee> getAllEmployees() {
+    public List<EmployeeDTO> getAllEmployees() {
         return service.getAllEmployees();
     }
 
-    // GET employee by ID
+    // GET employee by ID (returns DTO)
     @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable Long id) {
+    public EmployeeDTO getEmployeeById(@PathVariable Long id) {
         return service.getEmployeeById(id);
     }
 
-    // POST to add a new employee
+    // POST to add a new employee (accepts DTO)
     @PostMapping
-    public Employee addEmployee(@RequestBody Employee employee) {
-        return service.addEmployee(employee);
+    public EmployeeDTO addEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        return service.saveEmployee(employeeDTO);
     }
 
-    // PUT to update an employee
+    // PUT to update an employee (accepts DTO)
     @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
-        return service.updateEmployee(id, employee);
+    public EmployeeDTO updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
+        return service.updateEmployee(id, employeeDTO);
     }
 
     // DELETE an employee
