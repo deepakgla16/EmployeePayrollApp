@@ -1,46 +1,72 @@
 package com.example.EmployeePayrollApp.controller;
 
+import com.example.EmployeePayrollApp.model.Employee;
 import com.example.EmployeePayrollApp.dto.EmployeeDTO;
-import com.example.EmployeePayrollApp.service.EmployeeService;
+import com.example.EmployeePayrollApp.services.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
 
     @Autowired
-    private EmployeeService service;
+    private EmployeeService employeeService;
 
-    // GET all employees (returns DTOs)
-    @GetMapping
-    public List<EmployeeDTO> getAllEmployees() {
-        return service.getAllEmployees();
+
+    @PostMapping("/add")
+    public Employee addEmployee(@RequestBody EmployeeDTO empDTO){
+        log.info("Request for adding:{} ",empDTO);
+
+         Employee employee=employeeService.addEmployee(empDTO);
+         log.info("Employee added Successfully with id:{}",employee.getId());
+         return  employee;
     }
 
-    // GET employee by ID (returns DTO)
-    @GetMapping("/{id}")
-    public EmployeeDTO getEmployeeById(@PathVariable Long id) {
-        return service.getEmployeeById(id);
+    @GetMapping("/get")
+    private List<Employee> getallEmployees(){
+        log.info("Fetching all employees ");
+
+        List<Employee> employees=employeeService.getAllEmployees();
+        log.info("Total employees found:{}",employees.size());
+        return employees;
     }
 
-    // POST to add a new employee (accepts DTO)
-    @PostMapping
-    public EmployeeDTO addEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        return service.saveEmployee(employeeDTO);
+    @GetMapping("/get/{id}")
+    public Employee getEmployeeById(@PathVariable Long id){
+        log.info("Fetching employee with Id:{}", id) ;
+
+        Employee employee=  employeeService.getEmployeeById(id);
+
+        if (employee !=null){
+            log.info("Employee found:{}",employee);
+
+        }
+        else{
+            log.warn("Employee with Id {} not found",id);
+        }
+        return  employee;
+
     }
 
-    // PUT to update an employee (accepts DTO)
-    @PutMapping("/{id}")
-    public EmployeeDTO updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
-        return service.updateEmployee(id, employeeDTO);
+    @PutMapping("/update/{id}")
+    public Employee updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO empDTO){
+        log.info("request to update employee with id :{}",id);
+        Employee employee=employeeService.updateEmployee(id,empDTO);
+        log.info("Update successfully");
+        return employee;
     }
 
-    // DELETE an employee
-    @DeleteMapping("/{id}")
-    public void deleteEmployee(@PathVariable Long id) {
-        service.deleteEmployee(id);
+    @DeleteMapping("/delete/{id}")
+
+    public  void deleteEmployee(@PathVariable Long id){
+        log.info("request for delete with id:{}",id);
+        employeeService.deleteEmployee(id);
+        log.info("Employee with id {} deleted successfully",id);
     }
+
 }
