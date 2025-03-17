@@ -11,7 +11,7 @@ public class EmployeePayrollAppApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EmployeePayrollAppApplication.class, args);
-		log.info("Employee Payroll Application has started successuflly ");
+		log.info("Employee Payroll Application has started successuflly on port 8080");
 
 	}
 

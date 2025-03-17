@@ -30,6 +30,9 @@ build/
 !**/src/test/**/build/
 
 ### VS Code ###
-.vscode/
+
 
 application.log
+applicationDev.log
+ApplicationStagging.log
+applicationProd.log
