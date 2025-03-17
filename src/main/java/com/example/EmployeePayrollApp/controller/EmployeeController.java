@@ -3,6 +3,7 @@ package com.example.EmployeePayrollApp.controller;
 import com.example.EmployeePayrollApp.model.Employee;
 import com.example.EmployeePayrollApp.dto.EmployeeDTO;
 import com.example.EmployeePayrollApp.services.EmployeeService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class EmployeeController {
 
 
     @PostMapping("/add")
-    public Employee addEmployee(@RequestBody EmployeeDTO empDTO){
+    public Employee addEmployee(@Valid @RequestBody EmployeeDTO empDTO){
         log.info("Request for adding:{} ",empDTO);
 
          Employee employee=employeeService.addEmployee(empDTO);
@@ -54,7 +55,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/update/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO empDTO){
+    public Employee updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeDTO empDTO){
         log.info("request to update employee with id :{}",id);
         Employee employee=employeeService.updateEmployee(id,empDTO);
         log.info("Update successfully");
